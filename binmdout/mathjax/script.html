@@ -1,0 +1,29 @@
+<script type="text/x-mathjax-config">
+    // 让MathJax库识别markdown里面的公式语法
+    MathJax.Hub.Config({
+      tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+    });
+</script>
+<script type="text/javascript">
+    let jabingpDiv = document.getElementById("jabingp");
+    let mathJaxFlagDiv
+    let waitTimer = setInterval(()=>{
+        mathJaxFlagDiv = document.getElementById("MathJax_Message");
+        if(mathJaxFlagDiv!=null){
+            clearInterval(waitTimer)
+            getData()
+        }
+    },50)
+
+    function getData(){
+        let getDataTime = setInterval(()=>{
+            jabingpDiv.textContent=mathJaxFlagDiv.textContent
+            console.log(mathJaxFlagDiv.textContent)
+            console.log(jabingpDiv.textContent)
+            if(mathJaxFlagDiv.style.cssText=="display: none;"){
+                jabingpDiv.textContent="渲染完成！"
+                clearInterval(getDataTime)
+            }
+        },100)
+    }
+</script>

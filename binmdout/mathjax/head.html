@@ -1,0 +1,16 @@
+<!-- 添加页面样式 -->
+<link rel="stylesheet" href="{{homePath}}/binmdout/theme/{{theme}}/css/page.css">
+<!-- 添加hljs样式 -->
+<link rel="stylesheet" href="{{homePath}}/binmdout/theme/{{theme}}/css/hljs.css">
+
+<!-- 添加HLJS代码段语法高亮库 -->
+<script type = "text/javascript" src="{{homePath}}/binmdout/theme/{{theme}}/lib/Highlight/highlight.pack.js"></script>
+
+<!-- JabinGP：这个必须放在HLJS后面，不然会导致数学公式失效 -->
+<!-- 添加MathJax数学公式显示库 -->
+<script src="{{homePath}}/binmdout/theme/{{theme}}/lib/MathJax-2.6.1/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+<!-- 调用hljs -->
+<script type="text/javascript">
+    hljs.initHighlightingOnLoad();
+</script>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>使用mdout转换的html</title>
+    <!-- 添加页面样式 -->
+    <link rel="stylesheet" href="{{.ThemePath}}/css/page.css">
+    <!-- 添加hljs样式 -->
+    <link rel="stylesheet" href="{{.ThemePath}}/css/hljs.css">
+    <!-- 在 hljs 和 page 之后以实现样式覆盖 -->
+    <link rel="stylesheet" href="{{.ThemePath}}/css/wrap.css">
+
+    <!-- 添加HLJS代码段语法高亮库 -->
+    <script type="text/javascript" src="{{.ThemePath}}/lib/Highlight/highlight.pack.js"></script>
+
+    <!-- JabinGP：这个必须放在HLJS后面，不然会导致数学公式失效 -->
+    <!-- 添加MathJax数学公式显示库 -->
+    <script src="{{.ThemePath}}/lib/MathJax-2.6.1/MathJax.js?config=TeX-AMS_CHTML"></script>
+
+    <!-- 添加 mermaid.js 库-->
+    <script src="{{.ThemePath}}/lib/mermaid/mermaid.js"></script>
+</head>
+
+<body>
+    <div id="jabingp" style="display: none;">渲染开始</div>
+    <div class="markdown-body">
+        {{.MarkdownBody}}
+    </div>
+    <!-- 调用mermaid.js -->
+    <script type="text/javascript">
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    <!-- 调用hljs -->
+    <script type="text/javascript">
+        hljs.initHighlightingOnLoad();
+    </script>
+    <!-- 调用MathJax -->
+    <script type="text/x-mathjax-config">
+        // 让MathJax库识别markdown里面的公式语法
+        MathJax.Hub.Config({
+        tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+        });
+    </script>
+    <script type="text/javascript">
+        let jabingpDiv = document.getElementById("jabingp");
+        let mathJaxFlagDiv;
+        let waitTimer = setInterval(() => {
+            mathJaxFlagDiv = document.getElementById("MathJax_Message");
+            if (mathJaxFlagDiv != null) {
+                clearInterval(waitTimer);
+                copyMessage();
+            }
+        }, 50);
+
+        let waitTimeOut = setTimeout(() => {
+            clearInterval(waitTimer);
+            jabingpDiv.textContent = "渲染超时（1000ms），未能加载MathJax渲染信息，可能是页面不含MathJax公式";
+            setTimeout(() => {
+                jabingpDiv.textContent = "渲染完成！";
+            }, 200)
+        }, 1000)
+
+        function copyMessage() {
+            let getDataTime = setInterval(() => {
+                jabingpDiv.textContent = mathJaxFlagDiv.textContent;
+                console.log(mathJaxFlagDiv.textContent);
+                console.log(jabingpDiv.textContent);
+                if (mathJaxFlagDiv.style.cssText == "display: none;") {
+                    jabingpDiv.textContent = "渲染完成！";
+                    clearInterval(getDataTime);
+                }
+            }, 100);
+        }
+    </script>
+</body>
+
+</html>
